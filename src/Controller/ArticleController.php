@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/create", name="index_list")
+     * @Route("/create", name="create_article")
      */
     public function createAction()
     {
@@ -29,17 +29,18 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index_list")
+     * @Route("/", name="list_article")
      */
     public function readAction($id, $name, $description, $createdAt)
     {
         $article = $this->getDoctrine()->getRepository(Article::class);
-        $article = $article->findAll();
-        return $this->render('article/list.html.twig', ['article' => $article]);
+        $articles = $article->findAll();
+
+        return $this->render('article/list.html.twig', ['articles' => $articles]);
     }
 
     /**
-     * @Route("/update/{id}", name="index_list")
+     * @Route("/update/{id}", name="update_article")
      */
 
     public function updateAction($id, Request $request)
@@ -54,7 +55,7 @@ class ArticleController extends AbstractController
             $em->persist($article);
             $em->flush();
 
-            return $this->redirectToRoute('index_list');
+            return $this->redirectToRoute('list_article');
         }
 
         return $this->render('article/new.html.twig', [

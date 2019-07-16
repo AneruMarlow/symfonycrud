@@ -62,4 +62,12 @@ class ArticleController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class)->find($id);
+        $em->remove($article);
+        $em->flush();
+    }
 }
